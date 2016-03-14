@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Olympics.iml" filepath="$PROJECT_DIR$/Olympics.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/entities/entities.iml" filepath="$PROJECT_DIR$/entities/entities.iml" />
       <module fileurl="file://$PROJECT_DIR$/network_lib/network_lib.iml" filepath="$PROJECT_DIR$/network_lib/network_lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/utils/utils.iml" filepath="$PROJECT_DIR$/utils/utils.iml" />

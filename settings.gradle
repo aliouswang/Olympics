@@ -1,1 +1,1 @@
-include ':app', ':network_lib', ':entities', ':utils'
+include ':app', ':network_lib', ':entities', ':utils', ':core'

@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/entities" />
             <option value="$PROJECT_DIR$/network_lib" />
             <option value="$PROJECT_DIR$/utils" />
@@ -18,6 +19,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/entities" />
             <option value="$PROJECT_DIR$/network_lib" />
             <option value="$PROJECT_DIR$/utils" />
