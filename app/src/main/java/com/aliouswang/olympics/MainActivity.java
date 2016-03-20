@@ -2,6 +2,7 @@ package com.aliouswang.olympics;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity
 
     private View content;
 
+    private Handler mHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +56,9 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                mSsoHandler.authorizeClientSso(new AuthListener());
+
+
+//                mSsoHandler.authorizeClientSso(new AuthListener());
             }
         });
 
@@ -71,6 +76,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         content = findViewById(R.id.content);
+
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction =
+                        manager.beginTransaction()
+                                .replace(R.id.content, new PublicTimeLineListFragment());
+                transaction.commit();
+            }
+        });
     }
 
     @Override
@@ -113,11 +129,17 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction =
-                    manager.beginTransaction()
-                            .replace(R.id.content, new PublicTimeLineListFragment());
-            transaction.commit();
+
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    FragmentManager manager = getSupportFragmentManager();
+                    FragmentTransaction transaction =
+                            manager.beginTransaction()
+                                    .replace(R.id.content, new PublicTimeLineListFragment());
+                    transaction.commit();
+                }
+            }, 200);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

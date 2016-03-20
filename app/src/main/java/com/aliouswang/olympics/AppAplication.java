@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.aliouswang.olympics.api.ApiServiceModule;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 /**
  * Created by aliouswang on 16/3/8.
@@ -22,6 +23,9 @@ public class AppAplication extends Application{
         appComponent = DaggerAppComponent.builder()
                 .apiServiceModule(new ApiServiceModule())
                 .build();
+
+        Fresco.initialize(this);
+
     }
 
     public AppComponent getAppComponent() {

@@ -12,4 +12,7 @@ public class ApiConstants {
     public static final String PUBLIC_TIME_LINE =
             BASE_URL + "/2/statuses/public_timeline.json";
 
+    public static final String HOME_TIME_LINE =
+            BASE_URL + "/2/statuses/home_timeline.json";
+
 }

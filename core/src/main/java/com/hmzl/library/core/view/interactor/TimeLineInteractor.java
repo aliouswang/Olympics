@@ -1,4 +1,4 @@
-package com.aliouswang.olympics.interactor;
+package com.hmzl.library.core.view.interactor;
 
 import com.aliouswang.entities.TimeLineWrap;
 

@@ -1,4 +1,4 @@
-package com.aliouswang.olympics.presenter.interfaces;
+package com.hmzl.library.core.presenter.interfaces;
 
 /**
  * Created by aliouswang on 16/3/8.

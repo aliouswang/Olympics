@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ScaleImageView">
+        <attr name="siv_scale" format="float"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="SquareGridView">
+        <attr name="numColumns" format="integer"/>
+        <attr name="horizontalSpacing" format="dimension"/>
+        <attr name="verticalSpacing" format="dimension"/>
+        <attr name="maxSize" format="integer"/>
+        <attr name="ratio" format="float"/>
+    </declare-styleable>
+
+</resources>

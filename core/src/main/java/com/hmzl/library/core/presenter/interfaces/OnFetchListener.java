@@ -1,4 +1,4 @@
-package com.aliouswang.olympics.presenter.interfaces;
+package com.hmzl.library.core.presenter.interfaces;
 
 import com.aliouswang.entities.EntityWrap;
 

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="@dimen/item_default_margin"
+    android:layout_marginRight="@dimen/item_default_margin"
+    android:layout_marginTop="@dimen/item_default_margin"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/img_avatar_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/item_default_margin"
+            fresco:placeholderImage="@mipmap/default_circle_ic"
+            fresco:roundAsCircle="true" />
+
+        <ImageView
+            android:id="@+id/img_avatar_vip_tag"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignBottom="@+id/img_avatar_head"
+            android:layout_alignRight="@+id/img_avatar_head"
+            android:background="@mipmap/avatar_vip"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_avatar_name"
+            style="@style/text_normal"
+            android:layout_alignTop="@+id/img_avatar_head"
+            android:layout_toRightOf="@+id/img_avatar_head"
+            android:textColor="@color/font_orange" />
+
+        <TextView
+            android:id="@+id/tv_source"
+            style="@style/text_tiny"
+            android:layout_below="@+id/tv_avatar_name"
+            android:layout_toRightOf="@+id/img_avatar_head"
+            android:textColor="@color/font_gray" />
+
+        <TextView
+            android:id="@+id/tv_timeline_content"
+            style="@style/text_normal"
+            android:layout_below="@+id/img_avatar_head"
+            android:layout_marginLeft="@dimen/item_default_margin"
+            android:layout_marginRight="@dimen/item_default_margin"
+            android:textColor="@color/font_orange" />
+
+        <com.hmzl.library.core.widget.SquareGridView
+            android:id="@+id/square_grid_view"
+            android:layout_below="@+id/tv_timeline_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/item_default_margin" />
+
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

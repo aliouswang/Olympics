@@ -1,4 +1,4 @@
-package com.aliouswang.olympics.interactor;
+package com.hmzl.library.core.view.interactor;
 
 /**
  * Created by aliouswang on 16/3/8.

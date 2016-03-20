@@ -16,8 +16,14 @@ public interface ApiService {
     Observable<TimeLineWrap> getPublicTimeLine(
             @Query("access_token") String access_token,
             @Query("count") int count,
-            @Query("page") int page,
-            @Query("base_app") int base_app
+            @Query("page") int page
+    );
+
+    @GET(ApiConstants.HOME_TIME_LINE)
+    Observable<TimeLineWrap> getHomeTimeLine(
+            @Query("access_token") String access_token,
+            @Query("count") int count,
+            @Query("page") int page
     );
 
 }

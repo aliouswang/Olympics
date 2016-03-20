@@ -22,6 +22,20 @@ public class TimeLine extends BaseEntity{
     public boolean favorited;
     public boolean truncated;
     public User user;
+    public String thumbnail_pic;
+    public String bmiddle_pic;
+    public String original_pic;
     public ArrayList<TimeLineImage> pic_urls;
+
+    public String getSourceDesc() {
+        if (source != null) {
+            int preTag = source.lastIndexOf("\">");
+            int tailTag = source.lastIndexOf("</a>");
+            if (preTag > 0 && tailTag > 0 && preTag < tailTag) {
+                return source.substring(preTag + 2, tailTag);
+            }
+        }
+        return "";
+    }
 
 }

@@ -8,5 +8,6 @@ import com.aliouswang.entities.BaseEntity;
 public class TimeLineImage extends BaseEntity{
 
     public String thumbnail_pic;
-
+    public String bmiddle_pic;
+    public String original_pic;
 }
