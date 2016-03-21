@@ -20,15 +20,20 @@ import android.widget.Toast;
 
 import com.aliouswang.network_lib.ConfigConstants;
 import com.aliouswang.olympics.Sina.Constants;
+import com.aliouswang.olympics.presenter.PublicTimeLineFragmentPresenter;
+import com.aliouswang.olympics.view.adapter.TimeLineRecyclerViewAdapter;
 import com.aliouswang.olympics.view.fragment.feed.PublicTimeLineListFragment;
 import com.aliouswang.utils.SharePreferenceUtil;
+import com.hmzl.library.core.presenter.BaseListPresenter;
+import com.hmzl.library.core.view.activity.BaseRecyclerViewActivity;
+import com.hmzl.library.core.view.adapter.BaseRecyclerViewAdapter;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseRecyclerViewActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private AuthInfo mAuthInfo;
@@ -44,28 +49,25 @@ public class MainActivity extends AppCompatActivity
     private Handler mHandler = new Handler();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getInflateLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mAuthInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+        mSsoHandler = new SsoHandler(MainActivity.this, mAuthInfo);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-
-
-//                mSsoHandler.authorizeClientSso(new AuthListener());
+                mSsoHandler.authorizeClientSso(new AuthListener());
             }
         });
-
-        mAuthInfo = new AuthInfo(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-        mSsoHandler = new SsoHandler(MainActivity.this, mAuthInfo);
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -74,19 +76,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        content = findViewById(R.id.content);
-
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction =
-                        manager.beginTransaction()
-                                .replace(R.id.content, new PublicTimeLineListFragment());
-                transaction.commit();
-            }
-        });
     }
 
     @Override
@@ -172,6 +161,32 @@ public class MainActivity extends AppCompatActivity
             mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
 
+    }
+
+    PublicTimeLineFragmentPresenter timeLineFragmentPresenter;
+
+    TimeLineRecyclerViewAdapter adapter;
+
+    @Override
+    protected BaseRecyclerViewAdapter getRecyclerViewAdapter() {
+        if (adapter == null) {
+            adapter = new TimeLineRecyclerViewAdapter(mThis);
+        }
+        return adapter;
+    }
+
+    @Override
+    protected BaseListPresenter getListPresenter() {
+        if (timeLineFragmentPresenter == null) {
+            timeLineFragmentPresenter =
+                    new PublicTimeLineFragmentPresenter(mThis, this);
+        }
+        return timeLineFragmentPresenter;
+    }
+
+    @Override
+    protected void onLoadNextPage() {
+        timeLineFragmentPresenter.fetchNext();
     }
 
     /**

@@ -26,9 +26,10 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-jackson:2.0.0-beta4'
     compile 'com.squareup.retrofit2:retrofit-converters:2.0.0-beta4'
     compile 'com.squareup.retrofit2:retrofit-adapters:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
     compile 'io.reactivex:rxjava:1.1.1'
     compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+
     compile files('libs/weibosdkcore.jar')
     compile files('libs/weiboSDKCore_3.1.4.jar')
     compile project(':entities')

@@ -8,7 +8,7 @@ import com.aliouswang.olympics.models.PublicTimeLineListModelImpl;
 import com.aliouswang.utils.SharePreferenceUtil;
 import com.hmzl.library.core.models.TimeLineListModel;
 import com.hmzl.library.core.presenter.BaseListPresenter;
-import com.hmzl.library.core.view.fragment.BaseRecyclerViewFragment;
+import com.hmzl.library.core.presenter.interfaces.OnFetchListener;
 
 import rx.Observable;
 
@@ -18,7 +18,7 @@ import rx.Observable;
 public class PublicTimeLineFragmentPresenter extends BaseListPresenter {
 
     public PublicTimeLineFragmentPresenter(Context context,
-                                           BaseRecyclerViewFragment timeLineListFragment) {
+                                           OnFetchListener timeLineListFragment) {
         super(context, timeLineListFragment);
     }
 

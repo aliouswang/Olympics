@@ -1,13 +1,13 @@
 package com.hmzl.library.core.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.aliouswang.entities.EntityWrap;
 import com.aliouswang.utils.ACache;
 import com.hmzl.library.core.models.TimeLineListModel;
 import com.hmzl.library.core.presenter.interfaces.IFetchAction;
 import com.hmzl.library.core.presenter.interfaces.OnFetchListener;
-import com.hmzl.library.core.view.fragment.BaseRecyclerViewFragment;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -25,7 +25,7 @@ public abstract class BaseListPresenter<E extends EntityWrap> extends BasePresen
     protected int count = 20;
     protected AtomicBoolean isLoading = new AtomicBoolean(false);
 
-    private BaseRecyclerViewFragment timeLineListFragment;
+    private OnFetchListener timeLineListFragment;
 
     protected TimeLineListModel timeLineListModel;
 
@@ -34,7 +34,7 @@ public abstract class BaseListPresenter<E extends EntityWrap> extends BasePresen
     }
 
     public BaseListPresenter(Context context,
-                                     BaseRecyclerViewFragment timeLineListFragment) {
+                                     OnFetchListener timeLineListFragment) {
         super(context);
         this.timeLineListFragment = timeLineListFragment;
         this.timeLineListModel = getTimeLineListModel();
@@ -74,6 +74,7 @@ public abstract class BaseListPresenter<E extends EntityWrap> extends BasePresen
         curLoadPage = page + 1;
         Observable loadTask = getLoadTask();
         if (loadTask != null) {
+            Log.e("rxjava", "fetchNext");
             getTimeLineListModel().getDataList(loadTask,
                     this, needCache(), cacheTime());
         }
