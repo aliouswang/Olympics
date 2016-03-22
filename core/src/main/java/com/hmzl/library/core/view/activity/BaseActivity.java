@@ -11,10 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 public abstract class BaseActivity extends AppCompatActivity{
 
     protected Activity mThis;
+    protected Bundle mSaveInstanceState;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.mSaveInstanceState = savedInstanceState;
         mThis = this;
         setContentView(getInflateLayout());
         parseIntent();

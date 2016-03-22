@@ -1,5 +1,6 @@
 package com.aliouswang.olympics.view.viewholder;
 
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,9 @@ import butterknife.ButterKnife;
  */
 public class PublicTimeLineRecyclerViewHolder extends BaseRecyclerViewHolder {
 
+    @Bind(R.id.card_root_view)
+    public CardView card_root_view;
+
     @Bind(R.id.img_avatar_head)
     public SimpleDraweeView img_avatar_head;
 
@@ -33,7 +37,7 @@ public class PublicTimeLineRecyclerViewHolder extends BaseRecyclerViewHolder {
     public TextView tv_timeline_content;
 
     //    @Bind(R.id.img_timeline)
-    public ImageView img_timeline;
+    public SimpleDraweeView img_timeline;
 
     //    @Bind(R.id.square_grid_view)
     public SquareGridView squareGridView;
@@ -42,7 +46,7 @@ public class PublicTimeLineRecyclerViewHolder extends BaseRecyclerViewHolder {
         super(itemView, viewType);
         ButterKnife.bind(this, itemView);
         if (viewType == 0) {
-            this.img_timeline = (ImageView) itemView.findViewById(R.id.img_timeline);
+            this.img_timeline = (SimpleDraweeView) itemView.findViewById(R.id.img_timeline);
         } else if (viewType == 1) {
             this.squareGridView = (SquareGridView) itemView.findViewById(R.id.square_grid_view);
         }

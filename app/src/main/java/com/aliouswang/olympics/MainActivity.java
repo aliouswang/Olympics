@@ -18,15 +18,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.aliouswang.entities.feeds.TimeLine;
 import com.aliouswang.network_lib.ConfigConstants;
 import com.aliouswang.olympics.Sina.Constants;
+import com.aliouswang.olympics.interfaces.OnTimeLineItemClickListener;
 import com.aliouswang.olympics.presenter.PublicTimeLineFragmentPresenter;
+import com.aliouswang.olympics.view.activity.TimeLineDetailActivity;
 import com.aliouswang.olympics.view.adapter.TimeLineRecyclerViewAdapter;
 import com.aliouswang.olympics.view.fragment.feed.PublicTimeLineListFragment;
 import com.aliouswang.utils.SharePreferenceUtil;
 import com.hmzl.library.core.presenter.BaseListPresenter;
 import com.hmzl.library.core.view.activity.BaseRecyclerViewActivity;
 import com.hmzl.library.core.view.adapter.BaseRecyclerViewAdapter;
+import com.kogitune.activity_transition.ActivityTransition;
+import com.kogitune.activity_transition.ActivityTransitionLauncher;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -171,6 +176,17 @@ public class MainActivity extends BaseRecyclerViewActivity
     protected BaseRecyclerViewAdapter getRecyclerViewAdapter() {
         if (adapter == null) {
             adapter = new TimeLineRecyclerViewAdapter(mThis);
+            adapter.setOnTimeLineItemClickListener(new OnTimeLineItemClickListener() {
+                @Override
+                public void onClick(View v, TimeLine timeLine) {
+                    Intent intent = new Intent(MainActivity.this, TimeLineDetailActivity.class);
+                    intent.putExtra("pojo", timeLine);
+                    ActivityTransitionLauncher
+                            .with(MainActivity.this)
+                            .from(v.findViewById(R.id.img_avatar_head))
+                            .launch(intent);
+                }
+            });
         }
         return adapter;
     }

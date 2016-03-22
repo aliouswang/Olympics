@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.aliouswang.entities.feeds.TimeLine;
 import com.aliouswang.olympics.R;
+import com.aliouswang.olympics.interfaces.OnTimeLineItemClickListener;
 import com.aliouswang.olympics.view.viewholder.PublicTimeLineRecyclerViewHolder;
 import com.hmzl.library.core.manager.ImageManager;
 import com.hmzl.library.core.view.adapter.BaseRecyclerViewAdapter;
@@ -17,8 +18,14 @@ import com.hmzl.library.core.widget.SquareViewAdapter;
 public class TimeLineRecyclerViewAdapter
         extends BaseRecyclerViewAdapter<TimeLine, PublicTimeLineRecyclerViewHolder>{
 
+    private OnTimeLineItemClickListener onTimeLineItemClickListener;
+
     public TimeLineRecyclerViewAdapter(Context context) {
         super(context);
+    }
+
+    public void setOnTimeLineItemClickListener(OnTimeLineItemClickListener onTimeLineItemClickListener) {
+        this.onTimeLineItemClickListener = onTimeLineItemClickListener;
     }
 
     @Override
@@ -47,7 +54,8 @@ public class TimeLineRecyclerViewAdapter
         if (viewType == 0) {
             if (!TextUtils.isEmpty(data.original_pic)) {
                 holder.img_timeline.setVisibility(View.VISIBLE);
-                ImageManager.loadImageWithGlide(context, holder.img_timeline, data.original_pic);
+//                ImageManager.loadImageWithGlide(context, holder.img_timeline, data.original_pic);
+                ImageManager.loadImageWithFresco(holder.img_timeline, data.original_pic);
             }else {
                 holder.img_timeline.setVisibility(View.GONE);
             }
@@ -69,6 +77,15 @@ public class TimeLineRecyclerViewAdapter
                 }
             });
         }
+
+        holder.card_root_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onTimeLineItemClickListener != null) {
+                    onTimeLineItemClickListener.onClick(v, data);
+                }
+            }
+        });
 
     }
 
