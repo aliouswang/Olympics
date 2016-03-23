@@ -19,24 +19,31 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.aliouswang.entities.feeds.TimeLine;
+import com.aliouswang.network_lib.ApiConstants;
 import com.aliouswang.network_lib.ConfigConstants;
 import com.aliouswang.olympics.Sina.Constants;
 import com.aliouswang.olympics.interfaces.OnTimeLineItemClickListener;
 import com.aliouswang.olympics.presenter.PublicTimeLineFragmentPresenter;
+import com.aliouswang.olympics.view.activity.ImageBrowseActivity;
 import com.aliouswang.olympics.view.activity.TimeLineDetailActivity;
 import com.aliouswang.olympics.view.adapter.TimeLineRecyclerViewAdapter;
 import com.aliouswang.olympics.view.fragment.feed.PublicTimeLineListFragment;
 import com.aliouswang.utils.SharePreferenceUtil;
 import com.hmzl.library.core.presenter.BaseListPresenter;
+import com.hmzl.library.core.utils.IntentUtil;
 import com.hmzl.library.core.view.activity.BaseRecyclerViewActivity;
 import com.hmzl.library.core.view.adapter.BaseRecyclerViewAdapter;
 import com.kogitune.activity_transition.ActivityTransition;
 import com.kogitune.activity_transition.ActivityTransitionLauncher;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
+
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends BaseRecyclerViewActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -179,11 +186,11 @@ public class MainActivity extends BaseRecyclerViewActivity
             adapter.setOnTimeLineItemClickListener(new OnTimeLineItemClickListener() {
                 @Override
                 public void onClick(View v, TimeLine timeLine) {
-                    Intent intent = new Intent(MainActivity.this, TimeLineDetailActivity.class);
-                    intent.putExtra("pojo", timeLine);
+                    Intent intent = new Intent(MainActivity.this, ImageBrowseActivity.class);
+                    intent.putExtra(IntentUtil.POJO_NAME, timeLine.pic_urls);
                     ActivityTransitionLauncher
                             .with(MainActivity.this)
-                            .from(v.findViewById(R.id.img_avatar_head))
+                            .from(v)
                             .launch(intent);
                 }
             });
@@ -203,6 +210,28 @@ public class MainActivity extends BaseRecyclerViewActivity
     @Override
     protected void onLoadNextPage() {
         timeLineFragmentPresenter.fetchNext();
+        //just for debug
+//        String token = SharePreferenceUtil.getPrefString(MainActivity.this,
+//                ConfigConstants.TOKEN, "");
+//        String url = ApiConstants.HOME_TIME_LINE + "?access_token=" + token
+//                + "&count=50&page=1";
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        client.get(url, new AsyncHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers,
+//                                  byte[] responseBody) {
+//                String response = new String(responseBody);
+//                if (response == null) {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers,
+//                                  byte[] responseBody, Throwable error) {
+//
+//            }
+//        });
     }
 
     /**

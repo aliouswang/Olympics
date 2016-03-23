@@ -36,6 +36,7 @@ public class PublicTimeLineListFragment extends BaseRecyclerViewFragment
     @Override
     protected void onLoadNextPage() {
         timeLineFragmentPresenter.fetchNext();
+
     }
 
     @Override

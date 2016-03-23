@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/original_timeline"
+        android:title="原微博"
+        ></item>
+
+    <item android:id="@+id/repost_timeline"
+        android:title="转发"
+        ></item>
+
+    <item android:id="@+id/create_comment"
+        android:title="评论"
+        ></item>
+
+    <item android:id="@+id/share_timeline"
+        android:title="分享"
+        ></item>
+
+    <item android:id="@+id/favorite_timeline"
+        android:title="收藏"
+        ></item>
+
+    <item android:id="@+id/copy_timeline"
+        android:title="复制"
+        ></item>
+
+</menu>

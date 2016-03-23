@@ -27,8 +27,7 @@ public class TimeLineDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void parseIntent() {
-        Intent intent = getIntent();
+    protected void parseIntent(Intent intent) {
         timeLine = (TimeLine) intent.getSerializableExtra("pojo");
     }
 

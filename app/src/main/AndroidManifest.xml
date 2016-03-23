@@ -21,6 +21,7 @@
         </activity>
 
         <activity android:name=".view.activity.TimeLineDetailActivity"/>
+        <activity android:name=".view.activity.ImageBrowseActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  */
 public class PublicTimeLineRecyclerViewHolder extends BaseRecyclerViewHolder {
 
-    @Bind(R.id.card_root_view)
+//    @Bind(R.id.card_root_view)
     public CardView card_root_view;
 
     @Bind(R.id.img_avatar_head)
@@ -36,6 +36,9 @@ public class PublicTimeLineRecyclerViewHolder extends BaseRecyclerViewHolder {
     @Bind(R.id.tv_timeline_content)
     public TextView tv_timeline_content;
 
+    @Bind(R.id.img_menu_overflow)
+    public ImageView img_menu_overflow;
+
     //    @Bind(R.id.img_timeline)
     public SimpleDraweeView img_timeline;
 
@@ -50,6 +53,7 @@ public class PublicTimeLineRecyclerViewHolder extends BaseRecyclerViewHolder {
         } else if (viewType == 1) {
             this.squareGridView = (SquareGridView) itemView.findViewById(R.id.square_grid_view);
         }
+        card_root_view = (CardView) itemView.findViewById(R.id.card_root_view);
 
     }
 

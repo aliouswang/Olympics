@@ -47,6 +47,16 @@
             android:layout_toRightOf="@+id/img_avatar_head"
             android:textColor="@color/font_gray" />
 
+        <ImageView
+            android:id="@+id/img_menu_overflow"
+            android:src="@mipmap/ic_overflow_gray"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/img_avatar_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <TextView
             android:id="@+id/tv_timeline_content"
             style="@style/text_normal"
