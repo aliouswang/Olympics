@@ -74,7 +74,7 @@ public class TimeLineRecyclerViewAdapter
 
                 @Override
                 public String getImageUrl(int position) {
-                    return data.pic_urls.get(position).thumbnail_pic;
+                    return data.pic_urls.get(position).bmiddle_pic;
                 }
 
                 @Override

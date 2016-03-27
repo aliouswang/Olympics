@@ -1,6 +1,7 @@
 package com.aliouswang.olympics;
 
 import com.aliouswang.network_lib.api.ApiService;
+import com.aliouswang.network_lib.api.UserService;
 import com.aliouswang.olympics.api.ApiServiceModule;
 
 import javax.inject.Singleton;
@@ -15,5 +16,7 @@ import dagger.Component;
 public interface AppComponent {
 
     ApiService getApiService();
+
+    UserService getUserService();
 
 }

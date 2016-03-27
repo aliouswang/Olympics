@@ -12,4 +12,5 @@ public class IntentUtil {
     public static <T> T parseObject(Intent intent, String name) {
         return (T)intent.getSerializableExtra(name);
     }
+
 }

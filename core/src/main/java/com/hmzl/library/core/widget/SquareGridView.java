@@ -5,8 +5,10 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.hmzl.library.core.R;
 import com.hmzl.library.core.manager.ImageManager;
 
@@ -120,50 +122,37 @@ public class SquareGridView extends ViewGroup{
         if (shortCount > 0) {
             //we need add new subview.
             for (int i = 0;i < shortCount; i++) {
-//                SimpleDraweeView simpleDraweeView = new SimpleDraweeView(getContext());
-//
-//                GenericDraweeHierarchyBuilder builder =
-//                        new GenericDraweeHierarchyBuilder(getResources());
-//                builder.setPlaceholderImage(getResources().getDrawable(R.mipmap.default_photo_ic),
-//                        ScalingUtils.ScaleType.FIT_XY);
-//                simpleDraweeView.setHierarchy(builder.build());
-//
-//                simpleDraweeView.setTag(i + childCount);
-                ImageView imageView = new ImageView(getContext());
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                SimpleDraweeView simpleDraweeView = new SimpleDraweeView(getContext());
+
+                GenericDraweeHierarchyBuilder builder =
+                        new GenericDraweeHierarchyBuilder(getResources());
+                builder.setPlaceholderImage(getResources().getDrawable(R.mipmap.default_photo_ic),
+                        ScalingUtils.ScaleType.CENTER);
+                builder.setActualImageScaleType(ScalingUtils.ScaleType.CENTER);
+                simpleDraweeView.setHierarchy(builder.build());
+
+                simpleDraweeView.setTag(i + childCount);
+//                ImageView imageView = new ImageView(getContext());
+//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 LayoutParams vlp = new LayoutParams(
                         childrenWidth, childrenHeight
                 );
-                this.addView(imageView, vlp);
+                this.addView(simpleDraweeView, vlp);
             }
         }else if(shortCount < 0){
             for (int i = 0;i < Math.abs(shortCount); i ++) {
-//                SimpleDraweeView simpleDraweeView = (SimpleDraweeView) getChildAt(i + count);
-//                simpleDraweeView.setVisibility(View.GONE);
-                ImageView simpleDraweeView = (ImageView) getChildAt(i + count);
+                SimpleDraweeView simpleDraweeView = (SimpleDraweeView) getChildAt(i + count);
                 simpleDraweeView.setVisibility(View.GONE);
+//                ImageView simpleDraweeView = (ImageView) getChildAt(i + count);
+//                simpleDraweeView.setVisibility(View.GONE);
             }
         }
         for (int i = 0;i < count; i++) {
             final int index = i;
-//            final SimpleDraweeView simpleDraweeView = (SimpleDraweeView) getChildAt(i);
-//            simpleDraweeView.setVisibility(View.VISIBLE);
-//            ImageLoadUtil.loadWithFresco(getContext(),
-//                    squareViewAdapter.getImageUrl(i), simpleDraweeView);
-//            simpleDraweeView.setOnClickListener(new OnClickListener(){
-//
-//                @Override
-//                public void onClick(View v) {
-//                    if (adapter != null) {
-//                        adapter.onItemClick(simpleDraweeView, index, null);
-//                    }
-//                }
-//            });
-
-            final ImageView simpleDraweeView = (ImageView) getChildAt(i);
+            final SimpleDraweeView simpleDraweeView = (SimpleDraweeView) getChildAt(i);
             simpleDraweeView.setVisibility(View.VISIBLE);
-            ImageManager.loadImageWithGlide(getContext(),
-                     simpleDraweeView, squareViewAdapter.getImageUrl(i));
+            ImageManager.loadImageWithFresco(simpleDraweeView,
+                    squareViewAdapter.getImageUrl(i));
             simpleDraweeView.setOnClickListener(new OnClickListener(){
 
                 @Override
@@ -173,6 +162,20 @@ public class SquareGridView extends ViewGroup{
                     }
                 }
             });
+
+//            final ImageView simpleDraweeView = (ImageView) getChildAt(i);
+//            simpleDraweeView.setVisibility(View.VISIBLE);
+//            ImageManager.loadImageWithGlide(getContext(),
+//                     simpleDraweeView, squareViewAdapter.getImageUrl(i));
+//            simpleDraweeView.setOnClickListener(new OnClickListener(){
+//
+//                @Override
+//                public void onClick(View v) {
+//                    if (adapter != null) {
+//                        adapter.onItemClick(simpleDraweeView, index, null);
+//                    }
+//                }
+//            });
         }
     }
 

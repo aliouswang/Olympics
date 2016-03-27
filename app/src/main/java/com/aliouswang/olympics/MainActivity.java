@@ -5,45 +5,43 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aliouswang.entities.feeds.TimeLine;
-import com.aliouswang.network_lib.ApiConstants;
+import com.aliouswang.entities.user.User;
 import com.aliouswang.network_lib.ConfigConstants;
 import com.aliouswang.olympics.Sina.Constants;
 import com.aliouswang.olympics.interfaces.OnTimeLineItemClickListener;
 import com.aliouswang.olympics.presenter.PublicTimeLineFragmentPresenter;
 import com.aliouswang.olympics.view.activity.ImageBrowseActivity;
-import com.aliouswang.olympics.view.activity.TimeLineDetailActivity;
 import com.aliouswang.olympics.view.adapter.TimeLineRecyclerViewAdapter;
-import com.aliouswang.olympics.view.fragment.feed.PublicTimeLineListFragment;
+import com.aliouswang.utils.ACache;
 import com.aliouswang.utils.SharePreferenceUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.hmzl.library.core.manager.ImageManager;
 import com.hmzl.library.core.presenter.BaseListPresenter;
 import com.hmzl.library.core.utils.IntentUtil;
 import com.hmzl.library.core.view.activity.BaseRecyclerViewActivity;
 import com.hmzl.library.core.view.adapter.BaseRecyclerViewAdapter;
-import com.kogitune.activity_transition.ActivityTransition;
-import com.kogitune.activity_transition.ActivityTransitionLauncher;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 
-import cz.msebera.android.httpclient.Header;
+import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseRecyclerViewActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,7 +56,19 @@ public class MainActivity extends BaseRecyclerViewActivity
 
     private View content;
 
+    private NavigationView navigationView;
+
+    private SimpleDraweeView mUserHeadDraweeView;
+
+    private TextView mUserNameTextView;
+    private TextView mUserDescTextView;
+
     private Handler mHandler = new Handler();
+
+    public enum Section {
+        NAV_ALL,
+        NAV_BIBLATERAL
+    }
 
     @Override
     protected int getInflateLayout() {
@@ -86,8 +96,28 @@ public class MainActivity extends BaseRecyclerViewActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        getWindow().getDecorView().post(new Runnable() {
+            @Override
+            public void run() {
+                setupDrawerHeaderView();
+            }
+        });
+    }
+
+    private void setupDrawerHeaderView() {
+        navigationView.getHeaderView(0);
+        mUserHeadDraweeView = (SimpleDraweeView) navigationView.findViewById(R.id.drawee_view);
+        mUserNameTextView = (TextView) navigationView.findViewById(R.id.tv_user_name);
+
+        mUserDescTextView = ButterKnife.findById(navigationView, R.id.tv_user_desc);
+
+        User user = (User) ACache.get(mThis).getAsObject(ConfigConstants.CURRENT_USER);
+        mUserNameTextView.setText(user.screen_name);
+        mUserDescTextView.setText(user.description);
+        ImageManager.loadImageWithFresco(mUserHeadDraweeView, user.avatar_large);
     }
 
     @Override
@@ -128,21 +158,29 @@ public class MainActivity extends BaseRecyclerViewActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_all_timeline) {
             // Handle the camera action
 
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    FragmentManager manager = getSupportFragmentManager();
-                    FragmentTransaction transaction =
-                            manager.beginTransaction()
-                                    .replace(R.id.content, new PublicTimeLineListFragment());
-                    transaction.commit();
+//                    FragmentManager manager = getSupportFragmentManager();
+//                    FragmentTransaction transaction =
+//                            manager.beginTransaction()
+//                                    .replace(R.id.content, new PublicTimeLineListFragment());
+//                    transaction.commit();
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    timeLineFragmentPresenter.setSection(Section.NAV_ALL);
                 }
             }, 200);
-        } else if (id == R.id.nav_gallery) {
-
+        } else if (id == R.id.nav_bilateral_timeline) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    timeLineFragmentPresenter.setSection(Section.NAV_BIBLATERAL);
+                }
+            }, 200);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -161,7 +199,7 @@ public class MainActivity extends BaseRecyclerViewActivity
     /**
      * 当 SSO 授权 Activity 退出时，该函数被调用。
      *
-     * @see {@link Activity#onActivityResult}
+     * @see {@link{onActivityResult}
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -188,10 +226,28 @@ public class MainActivity extends BaseRecyclerViewActivity
                 public void onClick(View v, TimeLine timeLine) {
                     Intent intent = new Intent(MainActivity.this, ImageBrowseActivity.class);
                     intent.putExtra(IntentUtil.POJO_NAME, timeLine.pic_urls);
-                    ActivityTransitionLauncher
-                            .with(MainActivity.this)
-                            .from(v)
-                            .launch(intent);
+//                    ActivityTransitionLauncher
+//                            .with(MainActivity.this)
+//                            .from(v)
+//                            .launch(intent);
+//                    ActivityOptionsCompat optionsCompat
+//                            = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                            MainActivity.this, v, "scene_transition"
+//                    );
+//                    ActivityCompat.startActivity(MainActivity.this,
+//                            intent, optionsCompat.toBundle());
+
+                    int [] locations = new int [2];
+                    v.getLocationOnScreen(locations);
+
+                    intent.putExtra("width", v.getWidth());
+                    intent.putExtra("height", v.getHeight());
+                    intent.putExtra("left", locations[0]);
+                    intent.putExtra("top", locations[1]);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    overridePendingTransition(0, 0);
+
                 }
             });
         }
@@ -257,53 +313,13 @@ public class MainActivity extends BaseRecyclerViewActivity
                         setPrefString(MainActivity.this ,ConfigConstants.TOKEN,
                                 mAccessToken.getToken());
 
-//                AppAplication.get(MainActivity.this)
-//                        .getAppComponent().getApiService()
-//                        .getPublicTimeLine(mAccessToken.getToken(),
-//                                20, 1, 0).subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<TimeLineWrap>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(TimeLineWrap timeLineWrap) {
-//                        if (timeLineWrap != null) {
-//
-//                        }
-//                    }
-//                });
+                SharePreferenceUtil.
+                        setPrefLong(MainActivity.this, ConfigConstants.CURRENT_UID,
+                                Long.valueOf(mAccessToken.getUid()));
 
-//                String getUrl = "https://api.weibo.com/2/statuses/public_timeline.json";
-//                getUrl += "?access_token=" + mAccessToken.getToken();
-//                getUrl += "&count=50";
-//
-//                AsyncHttpClient client = new AsyncHttpClient();
-//                client.get(getUrl, new AsyncHttpResponseHandler() {
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                        try {
-//                            String body = new String(responseBody, "UTF-8");
-//                            Log.e("body", body);
-//                        } catch (UnsupportedEncodingException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//
-//                    }
-//                });
 
-//
-//                // 保存 Token 到 SharedPreferences
+                fetchCurrentUserInfo();
+
 //                AccessTokenKeeper.writeAccessToken(WBAuthActivity.this, mAccessToken);
                 Toast.makeText(MainActivity.this,
                         "weibosdk_demo_toast_auth_success", Toast.LENGTH_SHORT).show();
@@ -332,5 +348,35 @@ public class MainActivity extends BaseRecyclerViewActivity
             Toast.makeText(MainActivity.this,
                     "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void fetchCurrentUserInfo() {
+        long uid = SharePreferenceUtil.
+                getPrefLong(MainActivity.this, ConfigConstants.CURRENT_UID,
+                        0);
+        AppAplication.get(mThis)
+                .getAppComponent().getUserService()
+                .getUserInfoById(mAccessToken.getToken(),
+                        uid).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        if (user != null) {
+                            ACache.get(mThis)
+                                    .put(ConfigConstants.CURRENT_USER, user);
+                        }
+                    }
+                });
     }
 }

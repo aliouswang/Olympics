@@ -63,6 +63,13 @@ public class SharePreferenceUtil {
         settings.edit().putFloat(key, value).commit();
     }
 
+    public static void setPrefLong(Context context, final String key,
+                                    final long value) {
+        final SharedPreferences settings = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        settings.edit().putLong(key, value).commit();
+    }
+
     public static float getPrefFloat(Context context, final String key,
                                      final float defaultValue) {
         final SharedPreferences settings = PreferenceManager

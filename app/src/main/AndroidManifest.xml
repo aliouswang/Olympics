@@ -21,7 +21,9 @@
         </activity>
 
         <activity android:name=".view.activity.TimeLineDetailActivity"/>
-        <activity android:name=".view.activity.ImageBrowseActivity"/>
+        <activity android:name=".view.activity.ImageBrowseActivity"
+            android:theme="@style/Transparent"
+            />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

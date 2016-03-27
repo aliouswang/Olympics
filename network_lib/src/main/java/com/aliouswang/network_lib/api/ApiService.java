@@ -26,4 +26,11 @@ public interface ApiService {
             @Query("page") int page
     );
 
+    @GET(ApiConstants.BILATERAL_TIME_LINE)
+    Observable<TimeLineWrap> getBilateralTimeLine(
+            @Query("access_token") String access_token,
+            @Query("count") int count,
+            @Query("page") int page
+    );
+
 }

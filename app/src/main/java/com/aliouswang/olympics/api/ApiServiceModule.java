@@ -2,6 +2,7 @@ package com.aliouswang.olympics.api;
 
 import com.aliouswang.network_lib.ApiConstants;
 import com.aliouswang.network_lib.api.ApiService;
+import com.aliouswang.network_lib.api.UserService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,6 +35,23 @@ public class ApiServiceModule {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         return retrofit.create(ApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    UserService provideUserService() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JacksonConverterFactory jacksonConverterFactory = JacksonConverterFactory.create(mapper);
+//        OkHttpClient okHttpClient = new OkHttpClient();
+//        okHttpClient.interceptors().add(new BasicRequestInterceptor());
+//        okHttpClient.networkInterceptors().add(new StethoInterceptor());
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiConstants.BASE_URL)
+                .addConverterFactory(jacksonConverterFactory)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        return retrofit.create(UserService.class);
     }
 
 }
