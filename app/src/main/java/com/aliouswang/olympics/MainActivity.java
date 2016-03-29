@@ -23,11 +23,13 @@ import com.aliouswang.olympics.Sina.Constants;
 import com.aliouswang.olympics.interfaces.OnTimeLineItemClickListener;
 import com.aliouswang.olympics.presenter.PublicTimeLineFragmentPresenter;
 import com.aliouswang.olympics.view.activity.ImageBrowseActivity;
+import com.aliouswang.olympics.view.activity.WriteTimeLineActivity;
 import com.aliouswang.olympics.view.adapter.TimeLineRecyclerViewAdapter;
 import com.aliouswang.utils.ACache;
 import com.aliouswang.utils.SharePreferenceUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hmzl.library.core.manager.ImageManager;
+import com.hmzl.library.core.navigator.Navigator;
 import com.hmzl.library.core.presenter.BaseListPresenter;
 import com.hmzl.library.core.utils.IntentUtil;
 import com.hmzl.library.core.view.activity.BaseRecyclerViewActivity;
@@ -87,7 +89,8 @@ public class MainActivity extends BaseRecyclerViewActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSsoHandler.authorizeClientSso(new AuthListener());
+//                mSsoHandler.authorizeClientSso(new AuthListener());
+                Navigator.navigate(mThis, null, WriteTimeLineActivity.class);
             }
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -226,17 +229,6 @@ public class MainActivity extends BaseRecyclerViewActivity
                 public void onClick(View v, TimeLine timeLine) {
                     Intent intent = new Intent(MainActivity.this, ImageBrowseActivity.class);
                     intent.putExtra(IntentUtil.POJO_NAME, timeLine.pic_urls);
-//                    ActivityTransitionLauncher
-//                            .with(MainActivity.this)
-//                            .from(v)
-//                            .launch(intent);
-//                    ActivityOptionsCompat optionsCompat
-//                            = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                            MainActivity.this, v, "scene_transition"
-//                    );
-//                    ActivityCompat.startActivity(MainActivity.this,
-//                            intent, optionsCompat.toBundle());
-
                     int [] locations = new int [2];
                     v.getLocationOnScreen(locations);
 
@@ -247,7 +239,6 @@ public class MainActivity extends BaseRecyclerViewActivity
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     overridePendingTransition(0, 0);
-
                 }
             });
         }

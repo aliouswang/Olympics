@@ -39,6 +39,7 @@ public class PublicTimeLineRecyclerViewHolder extends BaseRecyclerViewHolder {
     @Bind(R.id.img_menu_overflow)
     public ImageView img_menu_overflow;
 
+
     //    @Bind(R.id.img_timeline)
     public SimpleDraweeView img_timeline;
 

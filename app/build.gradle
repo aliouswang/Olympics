@@ -41,4 +41,6 @@ dependencies {
 
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.commit451:PhotoView:1.2.4'
+
+    compile 'com.github.traex.rippleeffect:library:1.3'
 }

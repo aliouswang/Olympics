@@ -24,6 +24,9 @@
         <activity android:name=".view.activity.ImageBrowseActivity"
             android:theme="@style/Transparent"
             />
+        <activity android:name=".view.activity.WriteTimeLineActivity"
+            android:windowSoftInputMode="stateHidden"
+            />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
