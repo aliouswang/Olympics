@@ -118,9 +118,11 @@ public class MainActivity extends BaseRecyclerViewActivity
         mUserDescTextView = ButterKnife.findById(navigationView, R.id.tv_user_desc);
 
         User user = (User) ACache.get(mThis).getAsObject(ConfigConstants.CURRENT_USER);
-        mUserNameTextView.setText(user.screen_name);
-        mUserDescTextView.setText(user.description);
-        ImageManager.loadImageWithFresco(mUserHeadDraweeView, user.avatar_large);
+        if (user != null) {
+            mUserNameTextView.setText(user.screen_name);
+            mUserDescTextView.setText(user.description);
+            ImageManager.loadImageWithFresco(mUserHeadDraweeView, user.avatar_large);
+        }
     }
 
     @Override

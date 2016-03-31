@@ -1,74 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.rockerhieu.emojicon.EmojiconEditText
-        android:id="@+id/et_emojicon"
-        android:padding="12dp"
-        android:gravity="left"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="250dp"
-        />
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <fragment
-        android:id="@+id/emojicons"
-        android:layout_alignParentBottom="true"
-        class="com.rockerhieu.emojicon.EmojiconsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
-        android:layout_above="@+id/emojicons"
-        android:background="@color/font_orange"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/appbar_layout"
         android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:layout_height="50dp">
-        <ImageView
-            android:id="@+id/img_location"
-            android:src="@drawable/ic_location_light"
-            android:padding="8dp"
-            android:layout_width="42dp"
-            android:layout_height="42dp" />
-        <ImageView
-            android:id="@+id/img_photo"
-            android:layout_toRightOf="@+id/img_location"
-            android:src="@drawable/ic_photo_light"
-            android:padding="8dp"
-            android:layout_width="42dp"
-            android:layout_height="42dp" />
-        <ImageView
-            android:id="@+id/img_emoticon"
-            android:layout_toRightOf="@+id/img_photo"
-            android:src="@drawable/ic_emoticon_light"
-            android:padding="8dp"
-            android:layout_width="42dp"
-            android:layout_height="42dp" />
-        <ImageView
-            android:id="@+id/img_at_inactive"
-            android:layout_toRightOf="@+id/img_emoticon"
-            android:src="@drawable/ic_at_inactive_light"
-            android:padding="8dp"
-            android:layout_width="42dp"
-            android:layout_height="42dp" />
-        <ImageView
-            android:id="@+id/img_sharp"
-            android:layout_toRightOf="@+id/img_at_inactive"
-            android:src="@drawable/ic_sharp_light"
-            android:padding="8dp"
-            android:layout_width="42dp"
-            android:layout_height="42dp" />
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/img_send"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_send_light"
-            android:padding="8dp"
-            android:layout_width="42dp"
-            android:layout_height="42dp" />
+        <com.rockerhieu.emojicon.EmojiconEditText
+            android:id="@+id/et_emojicon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:minHeight="250dp"
+            android:padding="12dp" />
+
+        <fragment
+            android:id="@+id/emojicons"
+            class="com.rockerhieu.emojicon.EmojiconsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentBottom="true" />
+
+        <RelativeLayout
+            android:id="@+id/rl_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/font_orange"
+            android:gravity="center_vertical"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp">
+
+            <ImageView
+                android:id="@+id/img_location"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_location_light" />
+
+            <ImageView
+                android:id="@+id/img_photo"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_toRightOf="@+id/img_location"
+                android:padding="8dp"
+                android:src="@drawable/ic_photo_light" />
+
+            <ImageView
+                android:id="@+id/img_emoticon"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_toRightOf="@+id/img_photo"
+                android:padding="8dp"
+                android:src="@drawable/ic_emoticon_light" />
+
+            <ImageView
+                android:id="@+id/img_at_inactive"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_toRightOf="@+id/img_emoticon"
+                android:padding="8dp"
+                android:src="@drawable/ic_at_inactive_light" />
+
+            <ImageView
+                android:id="@+id/img_sharp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_toRightOf="@+id/img_at_inactive"
+                android:padding="8dp"
+                android:src="@drawable/ic_sharp_light" />
+
+            <ImageView
+                android:id="@+id/img_send"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentRight="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_send_light" />
+        </RelativeLayout>
     </RelativeLayout>
-
 </RelativeLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="search"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/ic_menu_send"
+        android:title="notification"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/action_all_visiable"
+        android:title="所有人可见"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_some_visiable"
+        android:title="指定人可见"
+        app:showAsAction="never" />
+
+</menu>

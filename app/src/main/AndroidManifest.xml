@@ -25,7 +25,8 @@
             android:theme="@style/Transparent"
             />
         <activity android:name=".view.activity.WriteTimeLineActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"
             />
     </application>
 
